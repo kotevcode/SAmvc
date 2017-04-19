@@ -1,5 +1,6 @@
 <?php
-namespace SAmvc;
+namespace SAmvc\Services;
+use SAmvc\Env;
 
 class DB
 {

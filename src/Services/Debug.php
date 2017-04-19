@@ -1,5 +1,5 @@
 <?php
-namespace SAmvc;
+namespace SAmvc\Services;
 
 defined('E_DEPRECATED') || define('E_DEPRECATED', 8192);
 defined('E_USER_DEPRECATED') || define('E_USER_DEPRECATED', 16384);

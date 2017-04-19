@@ -1,8 +1,8 @@
 <?php
-namespace SAmvc;
+namespace SAmvc\Framework;
 
 class Model {
 
-  
+
 
 }

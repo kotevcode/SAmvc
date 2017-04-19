@@ -1,5 +1,5 @@
 <?PHP
-namespace SAmvc;
+namespace SAmvc\Services;
 
 class Folder {
 

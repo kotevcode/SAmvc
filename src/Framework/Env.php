@@ -1,5 +1,5 @@
 <?php
-namespace SAmvc;
+namespace SAmvc\Framework;
 /**
  * env.json params
  */
