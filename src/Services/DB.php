@@ -1,13 +1,13 @@
 <?php
 namespace SAmvc\Services;
-use SAmvc\Env;
+use SAmvc\Framework\Env;
 
 class DB
 {
 
   public static function init()
   {
-    return new PDO(Env::get('db.type').':host='.Env::get('db.host').':'.Env::get('db.port').';dbname='.Env::get('db.name').';charset=utf8', Env::get('db.user'), Env::get('db.pass'));
+    return new \PDO(Env::get('db.type').':host='.Env::get('db.host').':'.Env::get('db.port').';dbname='.Env::get('db.name').';charset=utf8', Env::get('db.user'), Env::get('db.pass'));
   }
 
   /**
@@ -17,7 +17,7 @@ class DB
   * @param constant $fetchMode A PDO Fetch mode
   * @return mixed
   */
-  public static function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC)
+  public static function select($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC)
   {
     $sth = self::init()->prepare($sql);
     foreach ($array as $key => $value) {
@@ -35,7 +35,7 @@ class DB
   * @param constant $fetchMode A PDO Fetch mode
   * @return single row or false
   */
-  public static function selectSingle($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC)
+  public static function selectSingle($sql, $array = array(), $fetchMode = \PDO::FETCH_ASSOC)
   {
     $sth = self::init()->prepare($sql);
     foreach ($array as $key => $value) {
