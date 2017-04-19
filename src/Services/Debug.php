@@ -125,7 +125,7 @@ class Debug {
 		if ( self::$registered[ 'shutdown' ] && ( $error = error_get_last() ) && ( $error[ 'type' ] & ( E_ERROR |  E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR ) ) )
 			self::handler( $error[ 'type' ], $error[ 'message' ], $error[ 'file' ], $error[ 'line' ], null );
 	}
-	static public    function exception ( Throwable $exception ) {
+	static public    function exception ( \Throwable $exception ) {
 		$msg = sprintf( '"%s" with message "%s"', get_class( $exception ), $exception->getMessage() );
 		self::handler( -1, $msg, $exception->getFile(), $exception->getLine(), null, $exception->getTrace() );
 	}
