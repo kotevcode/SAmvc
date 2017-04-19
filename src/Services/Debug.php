@@ -17,7 +17,7 @@ class Debug {
 				self::style() . PHP_EOL . '<pre class="debug log">'
 				. implode(
 					'</pre>' . PHP_EOL . '<pre class="log">'
-					, array_map( 'Debug::var_export', $args )
+					, array_map( '\SAmvc\Services\Debug::var_export', $args )
 				)
 				. '</pre>'
 			);
@@ -25,7 +25,7 @@ class Debug {
 	static public    function dump () {
     $args = func_get_args();
 		self::$reporting &&
-			die( call_user_func_array( 'Debug::log', $args ) );
+			die( call_user_func_array( '\SAmvc\Services\Debug::log', $args ) );
 	}
 	static private   $time;
 	static private   $chrono;
@@ -67,12 +67,12 @@ class Debug {
 				self::$registered = array(
 					'display_errors'    => ini_get( 'display_errors' )
           , 'error_reporting' => error_reporting()
-					, 'shutdown'        => register_shutdown_function( 'Debug::shutdown' )
+					, 'shutdown'        => register_shutdown_function( '\SAmvc\Services\Debug::shutdown' )
 				);
 			self::$registered[ 'shutdown' ] = true;
 			error_reporting( E_ALL );
-			set_error_handler( 'Debug::handler', E_ALL );
-			set_exception_handler( 'Debug::exception' );
+			set_error_handler( '\SAmvc\Services\Debug::handler', E_ALL );
+			set_exception_handler( '\SAmvc\Services\Debug::exception' );
 			ini_set( 'display_errors', 0 );
 		} elseif ( self::$registered ) {
 			self::$registered[ 'shutdown' ] = false;
@@ -236,27 +236,27 @@ class Debug {
 	}
 	static protected function args_export ( $args ) {
 		return implode(', ', array_map(
-			'Debug::simple_export',
+			'\SAmvc\Services\Debug::simple_export',
 			(array) $args
 		) );
 	}
 }
-Debug::register();
+\SAmvc\Services\Debug::register();
 if ( ! function_exists( 'l' ) ) {
   function l () {
     $args = func_get_args();
-    call_user_func_array( 'Debug::log', $args );
+    call_user_func_array( '\SAmvc\Services\Debug::log', $args );
   }
 }
 if ( ! function_exists( 'd' ) ) {
   function d () {
     $args = func_get_args();
-  	call_user_func_array( 'Debug::dump', $args );
+  	call_user_func_array( '\SAmvc\Services\Debug::dump', $args );
   }
 }
 if ( ! function_exists( 'c' ) ) {
   function c () {
     $args = func_get_args();
-  	call_user_func_array( 'Debug::chrono', $args );
+  	call_user_func_array( '\SAmvc\Services\Debug::chrono', $args );
   }
 }
