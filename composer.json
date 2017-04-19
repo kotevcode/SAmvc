@@ -1,0 +1,21 @@
+{
+  "name": "shahafan/samvc",
+  "description": "A simple php mvc framework",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shahaf Antwarg",
+      "email": "santwarg@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.4"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "SAmvc\\": "src/"
+    }
+  }
+}
