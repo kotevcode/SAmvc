@@ -1,7 +1,7 @@
 <?php
 namespace SAmvc\Services;
 
-use SAmvc\Env;
+use SAmvc\Framework\Env;
 /**
  *
  */

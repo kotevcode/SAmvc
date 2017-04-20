@@ -19,6 +19,8 @@ class App {
      */
     public function init()
     {
+        // starts all the init functions in the config namespace
+        $this->_start();
         // Sets the protected $_url
         $this->_getUrl();
         // sub folder controller
@@ -44,6 +46,40 @@ class App {
         $this->_loadExistingController();
         $this->_callControllerMethod();
 
+    }
+
+    private function _start()
+    {
+      $namespace = 'Config';
+
+      // Relative namespace path
+      $namespaceRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
+
+      // Include paths
+      $includePathStr = get_include_path();
+      $includePathArr = explode(PATH_SEPARATOR, $includePathStr);
+
+      // Iterate include paths
+      $classArr = array();
+      foreach ($includePathArr as $includePath) {
+          $path = PUBLIC_HTML . DIRECTORY_SEPARATOR . $includePath . DIRECTORY_SEPARATOR . $namespaceRelativePath;
+          if (is_dir($path)) { // Does path exist?
+              $dir = dir($path); // Dir handle
+              while (false !== ($item = $dir->read())) {  // Read next item in dir
+                  $matches = array();
+                  if (preg_match('/^(?<class>[^.].+)\.php$/', $item, $matches)) {
+                      $classArr[] = $matches['class'];
+                  }
+              }
+              $dir->close();
+          }
+      }
+
+      foreach ($classArr as $name) {
+        $class = "App\\$namespace\\$name";
+        // Initialize the class
+        $class::init();
+      }
     }
 
     /**
