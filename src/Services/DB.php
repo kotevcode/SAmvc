@@ -57,14 +57,15 @@ class DB
 
     $fieldNames = implode('`, `', array_keys($data));
     $fieldValues = ':' . implode(', :', array_keys($data));
-
-    $sth = self::init()->prepare("INSERT INTO $table (`$fieldNames`) VALUES ($fieldValues)");
+    $pdo = self::init();
+    $sth = $pdo->prepare("INSERT INTO $table (`$fieldNames`) VALUES ($fieldValues)");
 
     foreach ($data as $key => $value) {
       $sth->bindValue(":$key", $value);
     }
 
     $sth->execute();
+    return $pdo->lastInsertId();
   }
 
   /**
