@@ -28,6 +28,7 @@ class App {
         $folder = str_replace('App/','',$folder);
         while( isset($this->_url[0]) && is_dir($folder) && $this->_url[0]){
           $this->setControllerPath($this->_controllerPath.'\\'.$this->_url[0]);
+          $folder .= '/'.$this->_url[0];
           array_shift($this->_url);
         }
         // Load the default controller if no Env::get('url') is set
