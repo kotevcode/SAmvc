@@ -3,7 +3,7 @@ namespace SAmvc\Framework;
 
 class View {
 
-    public function render($name)
+    public function render($name, $next = false)
     {
         require 'views/' . $name . '.php';
     }
