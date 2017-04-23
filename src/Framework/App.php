@@ -63,7 +63,7 @@ class App {
       // Iterate include paths
       $classArr = array();
       foreach ($includePathArr as $includePath) {
-          $path = PUBLIC_HTML . DIRECTORY_SEPARATOR . $includePath . DIRECTORY_SEPARATOR . $namespaceRelativePath;
+          $path = PUBLIC_HTML . DIRECTORY_SEPARATOR . $namespaceRelativePath;
           if (is_dir($path)) { // Does path exist?
               $dir = dir($path); // Dir handle
               while (false !== ($item = $dir->read())) {  // Read next item in dir
