@@ -31,7 +31,7 @@ class App {
           $folder .= '/'.$this->_url[0];
           array_shift($this->_url);
         }
-        // Load the default controller if no Env::get('url') is set
+        // Load the default controller if no url is set
         if (empty($this->_url[0])) {
           $this->_loadDefaultController();
           return false;
