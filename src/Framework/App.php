@@ -37,13 +37,6 @@ class App {
           return false;
         }
 
-        // small fix for wallart api
-        // original case: <user_id>/projects/<id>/email_message
-        // new case: users/<user_id>/projects/id/email_message
-        if( $this->_url[0] == 'wallart' && isset($this->_url[1]) && is_numeric($this->_url[1]) ){
-          array_splice($this->_url, 1, 0, 'users');
-        }
-
         $this->_loadExistingController();
         $this->_callControllerMethod();
 
