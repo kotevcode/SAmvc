@@ -7,7 +7,7 @@ class DB
 
   public static function init()
   {
-    return new \PDO(Env::get('db.type').':host='.Env::get('db.host').':'.Env::get('db.port').';dbname='.Env::get('db.name').';charset=utf8', Env::get('db.user'), Env::get('db.pass'));
+    return new \PDO(Env::get('db.type').':host='.Env::get('db.host').';port='.Env::get('db.port').';dbname='.Env::get('db.name').';charset=utf8', Env::get('db.user'), Env::get('db.pass'));
   }
 
   /**
