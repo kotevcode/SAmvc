@@ -1,16 +1,28 @@
 <?php
+
 namespace SAmvc\Framework;
 
+/**
+ * Class View
+ * @package SAmvc\Framework
+ */
 class View {
-
+    /**
+     * @param $name
+     * @param bool $next
+     */
     public function render($name, $next = false)
     {
-        require 'views/' . $name . '.php';
+        require 'views/'.$name.'.php';
     }
 
-    public function set($key,$value)
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function set($key, $value)
     {
-      $this->$key = $value;
+        $this->$key = $value;
     }
 
 }

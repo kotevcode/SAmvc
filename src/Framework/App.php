@@ -1,6 +1,11 @@
 <?php
+
 namespace SAmvc\Framework;
 
+/**
+ * Class App
+ * @package SAmvc\Framework
+ */
 class App {
 
     private $_url = null;
@@ -24,59 +29,59 @@ class App {
         // Sets the protected $_url
         $this->_getUrl();
         // sub folder controller
-        $folder = str_replace('\\','/',$this->_controllerPath.'/'.$this->_url[0]);
-        $folder = str_replace('App/','',$folder);
-        while( isset($this->_url[0]) && is_dir($folder) && $this->_url[0]){
-          $this->setControllerPath($this->_controllerPath.'\\'.$this->_url[0]);
-          $folder .= '/'.$this->_url[0];
-          array_shift($this->_url);
+        $folder = str_replace('\\', '/', $this->_controllerPath.'/'.$this->_url[0]);
+        $folder = str_replace('App/', '', $folder);
+        while (isset($this->_url[0]) && is_dir($folder) && $this->_url[0])
+        {
+            $this->setControllerPath($this->_controllerPath.'\\'.$this->_url[0]);
+            $folder .= '/'.$this->_url[0];
+            array_shift($this->_url);
         }
         // Load the default controller if no url is set
-        if (empty($this->_url[0])) {
-          $this->_loadDefaultController();
-          return false;
+        if (empty($this->_url[0]))
+        {
+            $this->_loadDefaultController();
+
+            return false;
         }
 
         $this->_loadExistingController();
         $this->_callControllerMethod();
-
-    }
-
-    private function _start()
-    {
-      $namespace = 'Config';
-
-      // Relative namespace path
-      $namespaceRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
-
-      // Iterate include paths
-      $classArr = array();
-      $path = PUBLIC_HTML . DIRECTORY_SEPARATOR . $namespaceRelativePath;
-      if (is_dir($path)) { // Does path exist?
-          $dir = dir($path); // Dir handle
-          while (false !== ($item = $dir->read())) {  // Read next item in dir
-              $matches = array();
-              if (preg_match('/^(?<class>[^.].+)\.php$/', $item, $matches)) {
-                  $classArr[] = $matches['class'];
-              }
-          }
-          $dir->close();
-      }
-
-      foreach ($classArr as $name) {
-        $class = "App\\$namespace\\$name";
-        // Initialize the class
-        $class::init();
-      }
     }
 
     /**
-     * (Optional) Set a custom path to controllers
-     * @param string $path
+     * initialize the app
      */
-    public function setControllerPath($path)
+    private function _start()
     {
-        $this->_controllerPath = trim($path, '/');
+        $namespace = 'Config';
+
+        // Relative namespace path
+        $namespaceRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
+
+        // Iterate include paths
+        $classArr = array();
+        $path = PUBLIC_HTML.DIRECTORY_SEPARATOR.$namespaceRelativePath;
+        if (is_dir($path))
+        { // Does path exist?
+            $dir = dir($path); // Dir handle
+            while (false !== ($item = $dir->read()))
+            {  // Read next item in dir
+                $matches = array();
+                if (preg_match('/^(?<class>[^.].+)\.php$/', $item, $matches))
+                {
+                    $classArr[] = $matches['class'];
+                }
+            }
+            $dir->close();
+        }
+
+        foreach ($classArr as $name)
+        {
+            $class = "App\\$namespace\\$name";
+            // Initialize the class
+            $class::init();
+        }
     }
 
     /**
@@ -95,13 +100,22 @@ class App {
     }
 
     /**
+     * (Optional) Set a custom path to controllers
+     * @param string $path
+     */
+    public function setControllerPath($path)
+    {
+        $this->_controllerPath = trim($path, '/');
+    }
+
+    /**
      * This loads if there is no GET parameter passed
      */
     private function _loadDefaultController()
     {
-      $class = $this->_controllerPath.'\\'.$this->_defaultController.$this->_controllerSuffix;
-      $this->_controller = new $class;
-      $this->_controller->index();
+        $class = $this->_controllerPath.'\\'.$this->_defaultController.$this->_controllerSuffix;
+        $this->_controller = new $class;
+        $this->_controller->index();
     }
 
     /**
@@ -111,13 +125,29 @@ class App {
      */
     private function _loadExistingController()
     {
-      $class = $this->_controllerPath.'\\'.ucfirst($this->_url[0]).$this->_controllerSuffix;
-      if (class_exists($class)) {
+        $class = $this->_controllerPath.'\\'.ucfirst($this->_url[0]).$this->_controllerSuffix;
+        if (class_exists($class))
+        {
+            $this->_controller = new $class;
+        } else
+        {
+            $this->_error();
+
+            return false;
+        }
+    }
+
+    /**
+     * Display an error page if nothing exists
+     *
+     * @return boolean
+     */
+    private function _error()
+    {
+        $class = $this->_controllerPath.'\\'.$this->_errorController.$this->_controllerSuffix;
         $this->_controller = new $class;
-      }else{
-        $this->_error();
-        return false;
-      }
+        $this->_controller->index();
+        exit;
     }
 
     /**
@@ -135,22 +165,31 @@ class App {
         $length = count($this->_url);
 
         // Make sure the method we are calling exists
-        if ($length > 1) {
-            if (isset($this->_controller->_type) && $this->_controller->_type == 'page'){
+        if ($length > 1)
+        {
+            if (isset($this->_controller->_type) && $this->_controller->_type == 'page')
+            {
                 $this->_url[1] = $this->_utf8[1];
-                if(isset($this->_url[2]))
-                  $this->_url[2] = $this->_utf8[2];
-            }else if (!method_exists($this->_controller, $this->_url[1])) {
-                $this->_error();
+                if (isset($this->_url[2]))
+                {
+                    $this->_url[2] = $this->_utf8[2];
+                }
+            } else
+            {
+                if (!method_exists($this->_controller, $this->_url[1]))
+                {
+                    $this->_error();
+                }
             }
         }
 
         // Determine what to load
-        switch ($length) {
+        switch ($length)
+        {
             case 6:
-              //Controller->Method(Param1, Param2, Param3, Param4)
-              $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3], $this->_url[4], $this->_url[5]);
-              break;
+                //Controller->Method(Param1, Param2, Param3, Param4)
+                $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3], $this->_url[4], $this->_url[5]);
+                break;
 
             case 5:
                 //Controller->Method(Param1, Param2, Param3)
@@ -168,12 +207,14 @@ class App {
                 break;
 
             case 2:
-                if (isset($this->_controller->_type) && $this->_controller->_type == 'page'){
-                  //Controller->index(Page Name)
-                  $this->_controller->index($this->_url[1]);
-                }else{
-                  //Controller->Method()
-                  $this->_controller->{$this->_url[1]}();
+                if (isset($this->_controller->_type) && $this->_controller->_type == 'page')
+                {
+                    //Controller->index(Page Name)
+                    $this->_controller->index($this->_url[1]);
+                } else
+                {
+                    //Controller->Method()
+                    $this->_controller->{$this->_url[1]}();
                 }
                 break;
 
@@ -181,18 +222,6 @@ class App {
                 $this->_controller->index();
                 break;
         }
-    }
-
-    /**
-     * Display an error page if nothing exists
-     *
-     * @return boolean
-     */
-    private function _error() {
-      $class = $this->_controllerPath.'\\'.$this->_errorController.$this->_controllerSuffix;
-      $this->_controller = new $class;
-      $this->_controller->index();
-      exit;
     }
 
 }

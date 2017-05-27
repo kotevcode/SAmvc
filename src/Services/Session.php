@@ -1,37 +1,61 @@
 <?php
+
 namespace SAmvc\Services;
 
-class Session
-{
-
-  public static function init()
-  {
-    if (session_status() == PHP_SESSION_NONE) {
-      @session_start();
+/**
+ * Class Session
+ * @package SAmvc\Services
+ */
+class Session {
+    /**
+     * initialize the session
+     */
+    public static function init()
+    {
+        if (session_status() == PHP_SESSION_NONE)
+        {
+            @session_start();
+        }
     }
-  }
 
-  public static function set($key, $value)
-  {
-    $_SESSION[$key] = $value;
-  }
+    /**
+     * @param $key
+     * @param $value
+     */
+    public static function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
 
-  public static function get($key)
-  {
-    if (isset($_SESSION[$key]))
-    return $_SESSION[$key];
-    else
-    return false;
-  }
+    /**
+     * @param $key
+     * @return bool
+     */
+    public static function get($key)
+    {
+        if (isset($_SESSION[$key]))
+        {
+            return $_SESSION[$key];
+        } else
+        {
+            return false;
+        }
+    }
 
-  public static function remove($key)
-  {
-    unset($_SESSION[$key]);
-  }
+    /**
+     * @param $key
+     */
+    public static function remove($key)
+    {
+        unset($_SESSION[$key]);
+    }
 
-  public static function destroy()
-  {
-    session_destroy();
-  }
+    /**
+     * destroy the session
+     */
+    public static function destroy()
+    {
+        session_destroy();
+    }
 
 }

@@ -1,2 +1,3 @@
 # SAmvc
-A simple php mvc framework 
+A simple php mvc framework
+ 
