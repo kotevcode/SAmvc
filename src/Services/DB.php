@@ -81,7 +81,11 @@ class DB {
             $sth->bindValue(":$key", $value);
         }
 
-        $sth->execute();
+        $response = $sth->execute();
+
+        if (!$response) { # query failed
+          error_log('query failed: ERROR['.$sth->errorCode().':'.print_r($sth->errorInfo(), true).'] data['.print_r($data, true).']');
+        }
 
         return $pdo->lastInsertId();
     }
