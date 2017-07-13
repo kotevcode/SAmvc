@@ -15,6 +15,7 @@ class App {
     private $_controllerPath = 'App\Controllers';
     private $_errorController = 'Error';
     private $_defaultController = 'Index';
+    private $_defaultMethod = 'index';
     private $_controllerSuffix = 'Controller';
 
     /**
