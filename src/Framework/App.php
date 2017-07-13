@@ -164,64 +164,25 @@ class App {
     {
         $length = count($this->_url);
 
-        // Make sure the method we are calling exists
-        if ($length > 1)
-        {
-            if (isset($this->_controller->_type) && $this->_controller->_type == 'page')
-            {
-                $this->_url[1] = $this->_utf8[1];
-                if (isset($this->_url[2]))
-                {
-                    $this->_url[2] = $this->_utf8[2];
-                }
-            } else
-            {
-                if (!method_exists($this->_controller, $this->_url[1]))
-                {
-                    $this->_error();
-                }
-            }
-        }
-
         // Determine what to load
-        switch ($length)
-        {
-            case 6:
-                //Controller->Method(Param1, Param2, Param3, Param4)
-                $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3], $this->_url[4], $this->_url[5]);
-                break;
-
-            case 5:
-                //Controller->Method(Param1, Param2, Param3)
-                $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3], $this->_url[4]);
-                break;
-
-            case 4:
-                //Controller->Method(Param1, Param2)
-                $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3]);
-                break;
-
-            case 3:
-                //Controller->Method(Param1)
-                $this->_controller->{$this->_url[1]}($this->_url[2]);
-                break;
-
-            case 2:
-                if (isset($this->_controller->_type) && $this->_controller->_type == 'page')
-                {
-                    //Controller->index(Page Name)
-                    $this->_controller->index($this->_url[1]);
-                } else
-                {
-                    //Controller->Method()
-                    $this->_controller->{$this->_url[1]}();
-                }
-                break;
-
-            default:
-                $this->_controller->index();
-                break;
+        if ($length == 1) {
+            //Controller->index()
+            $method = $this->_defaultMethod;
+            $params = [];
+        } else if ($length == 2 && isset($this->_controller->_type) && $this->_controller->_type == 'page') {
+            //Controller->index(Page Name)
+            $method = $this->_defaultMethod;
+            $params = [$this->_utf8[1]];
+        } else {
+            //Controller->Method(Param1, Param2, Param3, Param4)
+            $method = $this->_url[1];
+            $params = array_slice($this->_url,2);
         }
+        if (!method_exists($this->_controller, $method))
+        {
+            $this->_error();
+        }
+        call_user_func_array([$this->_controller,$method], $params);
     }
 
 }
