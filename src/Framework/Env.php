@@ -14,7 +14,7 @@ class Env {
         $arr = explode('.', $value);
         foreach ($arr as $curr)
         {
-            $env = $env[$curr];
+            $env = isset($env[$curr]) ? $env[$curr] : false;
         }
 
         return $env;

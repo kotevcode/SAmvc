@@ -164,20 +164,21 @@ class App {
     private function _callControllerMethod()
     {
         $length = count($this->_url);
+        $isPage = isset($this->_controller->_type) && $this->_controller->_type == 'page';
 
         // Determine what to load
         if ($length == 1) {
             //Controller->index()
             $method = $this->_defaultMethod;
             $params = [];
-        } else if ($length == 2 && isset($this->_controller->_type) && $this->_controller->_type == 'page') {
+        } else if ($length == 2 && $isPage) {
             //Controller->index(Page Name)
             $method = $this->_defaultMethod;
             $params = [$this->_utf8[1]];
         } else {
             //Controller->Method(Param1, Param2, Param3, Param4)
             $method = $this->_url[1];
-            $params = array_slice($this->_url,2);
+            $params = array_slice($isPage ? $this->_utf8 : $this->_url,2);
         }
         if (!method_exists($this->_controller, $method))
         {
