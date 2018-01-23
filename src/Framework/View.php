@@ -9,10 +9,11 @@ namespace SAmvc\Framework;
 class View {
     /**
      * @param $name
-     * @param bool $next
+     * @param array $compact
      */
-    public function render($name, $next = false)
+    public function render($name, $compact = [])
     {
+        extract($compact);
         require 'views/'.$name.'.php';
     }
 
