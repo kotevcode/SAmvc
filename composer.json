@@ -1,7 +1,7 @@
 {
   "name": "shahafan/samvc",
   "description": "A simple php mvc framework",
-  "type": "project",
+  "type": "package",
   "license": "MIT",
   "authors": [
     {
