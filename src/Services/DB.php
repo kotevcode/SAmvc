@@ -34,7 +34,7 @@ class DB {
      */
     public static function init()
     {
-      $timezone = Env::get('db.timezone') ? Env::get('db.timezone') : "+00:00";
+        $timezone = Env::get('db.timezone') ? Env::get('db.timezone') : "+00:00";
 
         return new \PDO(
           Env::get('db.type').':host='.Env::get('db.host').';port='.Env::get('db.port').';dbname='.Env::get(
