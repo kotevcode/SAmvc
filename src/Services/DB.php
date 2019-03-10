@@ -34,12 +34,12 @@ class DB {
      */
     public static function init()
     {
-        $timezone = Env::get('db.timezone') ? Env::get('db.timezone') : "+00:00";
+        $timezone = Env::get('db.timezone') ? Env::get('db.timezone') : "GMT";
 
         return new \PDO(
           Env::get('db.type').':host='.Env::get('db.host').';port='.Env::get('db.port').';dbname='.Env::get(
             'db.name'
-          ).';charset=utf8', Env::get('db.user'), Env::get('db.pass'), [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone ='".$timezone."'"]
+          ).';charset=utf8', Env::get('db.user'), Env::get('db.pass'), ['SET NAMES utf8', "SET GLOBAL time_zone = '".$timezone."'"]
         );
     }
 
