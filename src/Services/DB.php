@@ -39,7 +39,7 @@ class DB {
         return new \PDO(
           Env::get('db.type').':host='.Env::get('db.host').';port='.Env::get('db.port').';dbname='.Env::get(
             'db.name'
-          ).';charset=utf8', Env::get('db.user'), Env::get('db.pass'), Env::get('db.pass'), [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone ='".$timezone."'"]
+          ).';charset=utf8', Env::get('db.user'), Env::get('db.pass'), [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone ='".$timezone."'"]
         );
     }
 
