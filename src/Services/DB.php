@@ -34,11 +34,14 @@ class DB {
      */
     public static function init()
     {
-        return new \PDO(
+        $pdo = new \PDO(
           Env::get('db.type').':host='.Env::get('db.host').';port='.Env::get('db.port').';dbname='.Env::get(
             'db.name'
           ).';charset=utf8', Env::get('db.user'), Env::get('db.pass')
         );
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        return $pdo;
     }
 
     /**
