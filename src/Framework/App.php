@@ -80,8 +80,10 @@ class App {
         foreach ($classArr as $name)
         {
             $class = "App\\$namespace\\$name";
-            // Initialize the class
-            $class::init();
+            if (class_exists($class)) {
+              // Initialize the class
+              $class::init();
+            }
         }
     }
 
