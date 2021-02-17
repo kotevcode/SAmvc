@@ -112,13 +112,31 @@ class App {
     }
 
     /**
+     * (Optional) Set a default controller
+     * @param $controller
+     */
+    public function setDefaultController($controller)
+    {
+        $this->_defaultController = $controller;
+    }
+
+    /**
+     * (Optional) Set a default method
+     * @param $method
+     */
+    public function setDefaultMethod($method)
+    {
+        $this->_defaultMethod = $method;
+    }
+
+    /**
      * This loads if there is no GET parameter passed
      */
     private function _loadDefaultController()
     {
         $class = $this->_controllerPath.'\\'.$this->_defaultController.$this->_controllerSuffix;
         $this->_controller = new $class;
-        $this->_controller->index();
+        call_user_func_array([$this->_controller,$this->_defaultMethod], []);
     }
 
     /**
